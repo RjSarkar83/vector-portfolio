@@ -17,76 +17,22 @@
   <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet"></noscript>
   <style>
-    /* ===== Top-left Owl Icon (no glow) ===== */
+    /* ===== Top-left Owl Icon (no glow, no drop-shadow) ===== */
     .corner-owl{
       position:fixed;top:10px;left:10px;
       height:44px;width:auto;
       z-index:99999;cursor:pointer;
-      transition:transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+      transition:transform .2s ease;
       pointer-events:auto;
       -webkit-user-select:none;user-select:none;
       background:transparent;border:none;padding:0;
     }
     .corner-owl img{display:block;height:44px;width:auto;pointer-events:none;}
     .corner-owl:active{transform:scale(0.9);}
-    .corner-owl.hidden{opacity:0;pointer-events:none;transform:scale(0.3) rotate(-180deg);}
     @media (max-width:480px){
       .corner-owl{height:34px;top:8px;left:8px;}
       .corner-owl img{height:34px !important;}
     }
-
-    /* ===== Back button in 3D env view ===== */
-    #env3d-back{
-      position:fixed;top:12px;left:14px;
-      width:40px;height:40px;
-      border-radius:50%;
-      background:rgba(0,0,0,0.65);
-      border:1.5px solid rgba(255,255,255,0.35);
-      color:#fff;
-      font-size:22px;line-height:1;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;
-      z-index:1000000;
-      opacity:0;pointer-events:none;
-      transform:translateX(-20px) rotate(-90deg);
-      transition:opacity .35s ease, transform .4s cubic-bezier(.34,1.56,.64,1), background .2s;
-      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-    }
-    #env3d-back:hover{background:rgba(255,255,255,0.18);transform:translateX(0) rotate(0) scale(1.08);}
-    #env3d-back.show{opacity:1;pointer-events:auto;transform:translateX(0) rotate(0);}
-    #env3d-back:active{transform:translateX(0) rotate(0) scale(0.92);}
-
-    /* ===== 3D Transition Stage ===== */
-    html.env3d-open body{
-      overflow:hidden;
-    }
-    .env3d-zoomout #stage-main{
-      transform:perspective(1400px) scale(0.55) translateZ(-400px) rotateY(25deg) translateY(30px);
-      filter:brightness(0.35) blur(6px);
-      opacity:0.4;
-      transition:transform .9s cubic-bezier(.7,0,.3,1), filter .9s ease, opacity .9s ease;
-      pointer-events:none;
-    }
-    #env3d-frame{
-      position:fixed;inset:0;
-      width:100vw;height:100vh;
-      border:0;margin:0;padding:0;
-      background:#0a0a0a;
-      z-index:999998;
-      opacity:0;
-      transform:scale(1.25) translateZ(0);
-      transition:opacity .7s ease .25s, transform .9s cubic-bezier(.2,.8,.2,1) .15s;
-      pointer-events:none;
-    }
-    .env3d-zoomout #env3d-frame{
-      opacity:1;transform:scale(1);pointer-events:auto;
-    }
-    #stage-main{
-      transition:transform .9s cubic-bezier(.7,0,.3,1), filter .9s ease, opacity .9s ease;
-      transform-origin:center center;
-      will-change:transform,filter,opacity;
-    }
-    /* ======================================= */
     :root {
       /* ---- 24 karat gold palette (single source of truth) ---- */
       --au-white:  #fffdf2;   /* specular hit          */
@@ -2190,11 +2136,11 @@
 .side-link-fab i{color:#fff!important;font-size:11px!important;text-shadow:0 1px 2px rgba(0,0,0,0.8)!important}
 .side-link-fab:hover{transform:translateY(-2px) scale(1.12)!important;background:linear-gradient(160deg,#3a3a3a 0%,#000 100%)!important}
 .side-link-fab:active{transform:translateY(1px) scale(0.94)!important}
-.side-link-fab.counter-link{bottom:200px!important}
-.side-link-fab.converter-link{bottom:172px!important}
-.side-link-fab.game-link{bottom:144px!important}
-.side-link-fab.museum-link{bottom:116px!important}
-.side-link-fab.portfolio-link{bottom:88px!important}
+.side-link-fab.counter-link{bottom:240px!important}
+.side-link-fab.converter-link{bottom:212px!important}
+.side-link-fab.game-link{bottom:184px!important}
+.side-link-fab.museum-link{bottom:156px!important}
+.side-link-fab.portfolio-link{bottom:128px!important}
 .side-link-fab::after{content:attr(data-info)!important;position:absolute!important;right:36px!important;top:50%!important;transform:translateY(-50%)!important;background:#000!important;color:#fff!important;border:1px solid rgba(255,255,255,0.2)!important;padding:4px 8px!important;border-radius:6px!important;font-size:11px!important;white-space:nowrap!important;opacity:0!important;pointer-events:none!important;transition:all 0.2s ease!important}
 .side-link-fab:hover::after{opacity:1!important}
 #avFullscreenBtn{position:fixed!important;top:14px!important;right:14px!important;width:auto!important;height:auto!important;background:transparent!important;border:none!important;box-shadow:none!important;color:#fff!important;font-size:24px!important;z-index:2147483647!important;cursor:pointer!important;padding:6px!important;display:flex!important}
@@ -2206,15 +2152,15 @@
 
 <style id="fab-minimize">
 /* spacing: 40px pitch between right-bottom buttons */
-#fabToggle{bottom:6px!important}
-#shareFab{bottom:48px!important;right:10px!important}
-#audio-toggle{bottom:88px!important;right:10px!important}
-.side-link-fab.portfolio-link{bottom:128px!important}
-.side-link-fab.museum-link{bottom:168px!important}
-.side-link-fab.game-link{bottom:208px!important}
-.side-link-fab.converter-link{bottom:248px!important}
-.side-link-fab.counter-link{bottom:288px!important}
-#fabToggle{position:fixed!important;right:8px!important;bottom:2px!important;width:28px!important;height:28px!important;border-radius:50%!important;border:1.5px solid rgba(255,255,255,0.22)!important;background:radial-gradient(ellipse at 28% 22%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.35) 14%, transparent 42%), linear-gradient(160deg, #2a2a2a 0%, #111 18%, #000 45%, #0a0a0a 85%)!important;color:#fff!important;box-shadow:0 3px 8px rgba(0,0,0,0.45), inset 0 1.8px 2.5px rgba(255,255,255,0.75), inset 0 -2.5px 4px rgba(0,0,0,0.8)!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;cursor:pointer!important;z-index:100000!important;transition:transform .25s ease!important;-webkit-appearance:none;appearance:none}
+#fabToggle{bottom:22px!important}
+#shareFab{bottom:64px!important;right:10px!important}
+#audio-toggle{bottom:104px!important;right:10px!important}
+.side-link-fab.portfolio-link{bottom:144px!important}
+.side-link-fab.museum-link{bottom:184px!important}
+.side-link-fab.game-link{bottom:224px!important}
+.side-link-fab.converter-link{bottom:264px!important}
+.side-link-fab.counter-link{bottom:304px!important}
+#fabToggle{position:fixed!important;right:8px!important;bottom:18px!important;width:28px!important;height:28px!important;border-radius:50%!important;border:1.5px solid rgba(255,255,255,0.22)!important;background:radial-gradient(ellipse at 28% 22%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.35) 14%, transparent 42%), linear-gradient(160deg, #2a2a2a 0%, #111 18%, #000 45%, #0a0a0a 85%)!important;color:#fff!important;box-shadow:0 3px 8px rgba(0,0,0,0.45), inset 0 1.8px 2.5px rgba(255,255,255,0.75), inset 0 -2.5px 4px rgba(0,0,0,0.8)!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;cursor:pointer!important;z-index:100000!important;transition:transform .25s ease!important;-webkit-appearance:none;appearance:none}
 #fabToggle i{font-size:11px!important;color:#fff!important;transition:transform .3s ease}
 #fabToggle:hover{transform:scale(1.12)!important}
 #fabToggle:focus-visible{outline:2px solid #fff;outline-offset:2px}
@@ -2224,19 +2170,12 @@ body.fabs-min .side-link-fab,body.fabs-min #shareFab,body.fabs-min #audio-toggle
 </style>
 </head>
 <body>
-  <!-- Top-left Owl Icon -->
-  <button class="corner-owl" id="owlTrigger" title="Enter 3D Environment" aria-label="Open 3D Portfolio">
+<button id="avFullscreenBtn" type="button" aria-label="Fullscreen"><i id="avFullscreenIcon" class="fa-solid fa-expand"></i></button>
+  <!-- Top-left Owl Icon → 3D Environment -->
+  <button class="corner-owl" id="owlTrigger" title="3D Environment — Portfolio" aria-label="Open 3D Portfolio">
     <img src="owl-icon-48.png" alt="ArtViSiON 3D Environment">
   </button>
 
-  <!-- Back button (shows in 3D view) -->
-  <button id="env3d-back" aria-label="Back to Brand Designer">&larr;</button>
-
-  <!-- 3D Environment iframe (hidden until activated) -->
-  <iframe id="env3d-frame" src="about:blank" allow="autoplay; fullscreen" loading="lazy" title="3D Environment"></iframe>
-
-  <div id="stage-main">
-<button id="avFullscreenBtn" type="button" aria-label="Fullscreen"><i id="avFullscreenIcon" class="fa-solid fa-expand"></i></button>
 
   <div id="introRoot" aria-hidden="true">
     <div class="intro-stage">
@@ -5027,43 +4966,21 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline-color:#ffc
 })();
 </script>
 
-  </div><!-- /#stage-main -->
-
 <script>
 (function(){
   var owl = document.getElementById('owlTrigger');
-  var backBtn = document.getElementById('env3d-back');
-  var frame = document.getElementById('env3d-frame');
   var ENV_URL = 'https://rjsarkar83.github.io/vector-portfolio/';
-  var loaded = false;
-
-  function enter3D(){
-    if(!loaded){
-      frame.src = ENV_URL;
-      loaded = true;
-    }
-    owl.classList.add('hidden');
-    document.documentElement.classList.add('env3d-zoomout','env3d-open');
-    setTimeout(function(){ backBtn.classList.add('show'); }, 500);
+  function go(){
+    // Direct navigation — same tab, NO iframe — fixes "Content blocked" browser error.
+    // Using location.replace so browser back button returns to previous site cleanly.
+    window.location.href = ENV_URL;
   }
-
-  function exit3D(){
-    backBtn.classList.remove('show');
-    document.documentElement.classList.remove('env3d-zoomout');
-    setTimeout(function(){
-      document.documentElement.classList.remove('env3d-open');
-      owl.classList.remove('hidden');
-    }, 800);
+  if(owl){
+    owl.addEventListener('click', go);
+    owl.addEventListener('touchend', function(e){ e.preventDefault(); go(); }, {passive:false});
   }
-
-  owl.addEventListener('click', enter3D);
-  owl.addEventListener('touchend', function(e){ e.preventDefault(); enter3D(); }, {passive:false});
-  backBtn.addEventListener('click', exit3D);
-  backBtn.addEventListener('touchend', function(e){ e.preventDefault(); exit3D(); }, {passive:false});
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && document.documentElement.classList.contains('env3d-open')) exit3D();
-  });
 })();
 </script>
-</body>
+
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a44726c1ad7b4664',t:'MTc5MDk4MDIyNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
