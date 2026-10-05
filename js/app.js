@@ -1,5 +1,5 @@
 /* asset resolver: lets the single-file build swap in embedded data-URIs; no-op on the normal build */
-const A = p => { const u = (window.__ASSETS && window.__ASSETS[p]) || p; return /^assets\//.test(u) ? u + '?v=20261005ratio4' : u; };  /* ?v= busts the browser cache when artwork changes */
+const A = p => { const u = (window.__ASSETS && window.__ASSETS[p]) || p; return /^assets\//.test(u) ? u + '?v=20261005original1' : u; };  /* ?v= busts the browser cache when artwork changes */
 /* ArtViSiON — portfolio interactions */
 (() => {
 'use strict';
@@ -272,11 +272,12 @@ $('#cPal').addEventListener('click', e => {
 /* ---------------- pillars accordion ---------------- */
 const acc = $('#acc');
 acc.innerHTML = pillars.map((p, i) => `
-  <article class="panel${i === 0 ? ' on' : ''}${p.key === 'DESiGNiNG' ? ' design-ratios' : ''}" tabindex="0" role="button" aria-expanded="${i === 0}">
+  <article class="panel${i === 0 ? ' on' : ''}${p.key === 'DESiGNiNG' ? ' design-ratios' : ''}" data-ink="${['c','m','y','k','rgb'][i]}" tabindex="0" role="button" aria-expanded="${i === 0}">
     <img src="${p.img}" alt="" decoding="async">
     <span class="num">${pad(i + 1)}</span>
     <span class="vt">${p.key}</span>
     <div class="body">
+      <div class="pillar-ink"><i aria-hidden="true"></i>${['C / CYAN','M / MAGENTA','Y / YELLOW','K / BLACK','RGB / RED · GREEN · BLUE'][i]}</div>
       <h3>${p.key}</h3>
       <p>${p.desc}</p>
       <div class="del">${p.del.slice(0, 3).map(d => `<span>${d}</span>`).join('')}</div>

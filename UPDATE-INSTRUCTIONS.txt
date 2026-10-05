@@ -1,0 +1,8 @@
+LAST UPDATE ONLY — original logos + light logo backgrounds
+
+14 updated website files, not a complete website.
+Extract and upload these files to the SAME paths in your existing GitHub repository, replacing matching files. Keep all other existing files; do not delete the repository.
+
+Includes five scene SVGs, six Designing ratio SVGs, the template presentation page, index.html and js/app.js. The HTML/JS changes refresh cached artwork references.
+
+Wait for GitHub Pages deployment, then hard refresh.
