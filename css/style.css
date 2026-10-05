@@ -582,3 +582,20 @@ html{overflow-anchor:none}
 .reel-thumbs button{position:relative}
 .reel-nav,.reel-count{z-index:3}
 @media (prefers-reduced-motion:reduce){.hv{transition:none}}
+
+/* DESiGNiNG: preserve actual template proportions, never crop the ratio. */
+.panel.design-ratios>img{object-fit:contain;object-position:center;transform:none;background:#e8e3d9}
+.ratio-picker{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.ratio-picker button{border:1px solid currentColor;border-radius:3px;padding:8px 12px;background:transparent;color:inherit;font:inherit;font-size:12px;cursor:pointer}
+.ratio-picker button[aria-pressed="true"]{background:#ffe600;color:#111110;border-color:#ffe600}
+.ratio-picker button:focus-visible{outline:2px solid #ffe600;outline-offset:3px}
+.panel .body .ratio-caption{font-size:11px;margin:8px 0}
+.ratio-more{color:inherit;font-size:11px;text-decoration:underline}
+.panel.design-ratios.on>img{height:calc(100% - 370px)}
+.panel.design-ratios.on::after{height:370px}
+@media(max-width:860px){.panel.design-ratios.on{height:690px}.panel.design-ratios.on>img{height:300px}.panel.design-ratios.on::after{height:390px}}
+
+/* Six ratio controls remain legible within the open design panel. */
+.panel.design-ratios .ratio-picker{gap:6px}
+.panel.design-ratios .ratio-picker button{padding:8px 10px;min-width:44px;min-height:36px}
+@media(min-width:861px){.panel.design-ratios.on .body{padding-top:24px;padding-bottom:24px}.panel.design-ratios .del{margin-top:14px}.panel.design-ratios .lt{margin-top:12px}}

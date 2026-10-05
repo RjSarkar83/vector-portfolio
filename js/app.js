@@ -1,5 +1,5 @@
 /* asset resolver: lets the single-file build swap in embedded data-URIs; no-op on the normal build */
-const A = p => { const u = (window.__ASSETS && window.__ASSETS[p]) || p; return /^assets\//.test(u) ? u + '?v=20261003z' : u; };  /* ?v= busts the browser cache when artwork changes */
+const A = p => { const u = (window.__ASSETS && window.__ASSETS[p]) || p; return /^assets\//.test(u) ? u + '?v=20261005ratio4' : u; };  /* ?v= busts the browser cache when artwork changes */
 /* ArtViSiON — portfolio interactions */
 (() => {
 'use strict';
@@ -41,7 +41,7 @@ const pillars = [
   { key:'ADVERTiSiNG', letters:'H · N · O · S · W', img:A('assets/storyboard/scene-1-advertising.svg'), desc:'Hoardings, neon, outdoor media and window displays.', del:['Hoardings','Neon & LED','Outdoor media','Signage','Window display'] },
   { key:'BRANDiNG', letters:'B · L · V · Z', img:A('assets/storyboard/scene-2-branding.svg'), desc:'Identity, logos, stationery and zonal rollouts.', del:['Logo systems','Identity','Stationery','Zonal rollouts'] },
   { key:'CREATiVE', letters:'C · U · X', img:A('assets/storyboard/scene-3-creative.svg'), desc:'Campaigns, key visuals and experience design.', del:['Campaigns','Key visuals','UX flows','Experience design'] },
-  { key:'DESiGNiNG', letters:'A · D · G · M · P · T', img:A('assets/storyboard/scene-4-design.svg'), desc:'Artwork, typography, packaging and 3D mockups.', del:['Artworking','Graphic design','Typography','Packaging','3D mockups'] },
+  { key:'DESiGNiNG', letters:'A · D · G · M · P · T', img:A('assets/templates/designing-wide.svg'), desc:'Artwork, typography, packaging and 3D mockups.', del:['Artworking','Graphic design','Typography','Packaging','3D mockups'] },
   { key:'EXECUTiON', letters:'E · F · I · J · K · Q · R · Y', img:A('assets/storyboard/scene-5-execution.svg'), desc:'Recce, fabrication, ACP cladding and installation.', del:['Recce','Fabrication','Job production','Kiosks','Installation','Quality control'] }
 ];
 
@@ -272,7 +272,7 @@ $('#cPal').addEventListener('click', e => {
 /* ---------------- pillars accordion ---------------- */
 const acc = $('#acc');
 acc.innerHTML = pillars.map((p, i) => `
-  <article class="panel${i === 0 ? ' on' : ''}" tabindex="0" role="button" aria-expanded="${i === 0}">
+  <article class="panel${i === 0 ? ' on' : ''}${p.key === 'DESiGNiNG' ? ' design-ratios' : ''}" tabindex="0" role="button" aria-expanded="${i === 0}">
     <img src="${p.img}" alt="" decoding="async">
     <span class="num">${pad(i + 1)}</span>
     <span class="vt">${p.key}</span>
@@ -281,6 +281,7 @@ acc.innerHTML = pillars.map((p, i) => `
       <p>${p.desc}</p>
       <div class="del">${p.del.slice(0, 3).map(d => `<span>${d}</span>`).join('')}</div>
       <div class="lt">${p.letters}</div>
+      ${p.key === 'DESiGNiNG' ? `<div class="ratio-picker" role="group" aria-label="Artwork aspect ratio"><button type="button" data-ratio="square" aria-pressed="false">1:1</button><button type="button" data-ratio="wide" aria-pressed="true">16:9</button><button type="button" data-ratio="portrait" aria-pressed="false">4:5</button><button type="button" data-ratio="classic" aria-pressed="false">4:3</button><button type="button" data-ratio="tall" aria-pressed="false">1:2</button><button type="button" data-ratio="panoramic" aria-pressed="false">2:1</button></div><p class="ratio-caption" aria-live="polite">16:9 · Landscape presentation</p><a class="ratio-more" href="designing-templates.html">View & download all templates ↗</a>` : ''}
     </div>
   </article>`).join('');
 const panels = $$('.panel', acc);
@@ -298,8 +299,26 @@ panels.forEach(p => {
   p.addEventListener('focus', () => { if (p.matches(':focus-visible')) pick(p, true); });
   /* hover opening only in the side-by-side layout: in the stacked layout the panels move under the pointer and would fight each other */
   if (fine) p.addEventListener('mouseenter', () => { if (!stacked.matches) setPanel(p); });
-  p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPanel(p); } });
+  p.addEventListener('keydown', e => { if (e.target.closest('button, a')) return; if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPanel(p); } });
 });
+
+/* Ratio templates switch directly inside the DESiGNiNG panel. */
+const ratioPanel = $('.design-ratios', acc);
+if (ratioPanel) {
+  const descriptions = {square:'1:1 · Square presentation', wide:'16:9 · Landscape presentation', portrait:'4:5 · Portrait presentation', classic:'4:3 · Classic presentation', tall:'1:2 · Tall portrait presentation', panoramic:'2:1 · Panoramic presentation'};
+  ratioPanel.addEventListener('click', e => {
+    const button = e.target.closest('[data-ratio]');
+    if (!button) return;
+    e.stopPropagation(); setPanel(ratioPanel);
+    const key = button.dataset.ratio;
+    const image = $('img', ratioPanel);
+    image.src = A('assets/templates/designing-' + key + '.svg');
+    image.alt = 'DESiGNiNG — ' + descriptions[key];
+    $$('.ratio-picker button', ratioPanel).forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    $('.ratio-caption', ratioPanel).textContent = descriptions[key];
+  });
+  $('img', ratioPanel).alt = 'DESiGNiNG — 16:9 landscape presentation';
+}
 
 /* ---------------- A to Z ---------------- */
 const lettersEl = $('#letters'), imgsEl = $('#azImgs');
@@ -380,6 +399,7 @@ new IntersectionObserver(([e]) => {
   const track = $('#reelTrack'), thumbs = $('#reelThumbs'), bar = $('#reelBar');
   const BG = {"assets/covers/acp-brand-store.svg":"#CFE0F8","assets/covers/project-5-social.svg":"#FF4F9A","assets/covers/project-1-branding.svg":"#FF7A1F","assets/covers/project-2-posters.svg":"#2C3FD6","assets/covers/project-3-packaging.svg":"#CBE8D8","assets/covers/project-4-editorial.svg":"#F2D24B","assets/covers/project-6-logofolio.svg":"#F3F0E9","assets/covers/project-7-execution.svg":"#0E1238","assets/covers/project-8-print-posm.svg":"#12A89A","assets/covers/masterpiece-presentation.svg":"#EFE3CF","assets/dive/dive-1-acp-facade.svg":"#CFE0F8","assets/dive/dive-5-book.svg":"#F2D14B","assets/dive/dive-2-coffee.svg":"#FF7A1F","assets/dive/dive-3-poster-wall.svg":"#2C3FD6","assets/dive/dive-4-botanical.svg":"#C0E5D3","assets/dive/dive-6-social-grid.svg":"#FF4F9A","assets/dive/dive-7-mark-construction.svg":"#F3F0E9","assets/dive/dive-8-brand-store.svg":"#EFE9DC","assets/dive/dive-9-danglers.svg":"#B8A4FF","assets/storyboard/atoz-A-artworking.svg":"#F3F0E9","assets/storyboard/atoz-K-kiosk.svg":"#BFE5D2","assets/storyboard/atoz-B-branding.svg":"#FFD84A","assets/storyboard/atoz-C-creative.svg":"#B8A4FF","assets/storyboard/atoz-D-designing.svg":"#BFE5D2","assets/storyboard/atoz-E-execution.svg":"#8DB8FF","assets/storyboard/atoz-F-fabrication.svg":"#0E1238","assets/storyboard/atoz-G-graphic-design.svg":"#F3F0E9","assets/storyboard/atoz-H-hoarding.svg":"#8DB8FF","assets/storyboard/atoz-I-installation.svg":"#2C3FD6","assets/storyboard/atoz-J-job-production.svg":"#FF8A00","assets/storyboard/atoz-M-mockup.svg":"#F3F0E9","assets/storyboard/atoz-N-neon.svg":"#E9DCC6","assets/storyboard/atoz-O-outdoor.svg":"#FFE600","assets/storyboard/atoz-P-packaging.svg":"#E7D6BC","assets/storyboard/atoz-Q-quality-control.svg":"#12A89A","assets/storyboard/atoz-R-recce.svg":"#E7D6BC","assets/storyboard/atoz-S-signage.svg":"#F3F0E9","assets/storyboard/atoz-T-typography.svg":"#FF4F9A","assets/storyboard/atoz-U-user-experience.svg":"#2C3FD6","assets/storyboard/atoz-V-visiting-card.svg":"#B8A4FF","assets/storyboard/atoz-W-window-display.svg":"#FF5C39","assets/storyboard/atoz-X-experience-design.svg":"#B8A4FF","assets/storyboard/atoz-Y-yard.svg":"#E7D6BC","assets/storyboard/atoz-Z-zonal-branding.svg":"#F3F0E9","assets/storyboard/golden-keyvisual.svg":"#F3F0E9","assets/storyboard/scene-1-advertising.svg":"#BFE5D2","assets/storyboard/scene-2-branding.svg":"#F2271A","assets/storyboard/scene-3-creative.svg":"#2C3FD6","assets/storyboard/scene-4-design.svg":"#2C3FD6","assets/storyboard/scene-5-execution.svg":"#EFE6D6"};
   Object.assign(BG, { 'assets/covers/project-7-expo-pavilion.svg':'#0E1238', 'assets/retail/retail-1-phone-store-front.svg':'#CFE0F8', 'assets/retail/retail-2-phone-store-interior.svg':'#EFE9DC', 'assets/retail/retail-3-cladding-fascia-detail.svg':'#F3F0E9', 'assets/retail/retail-4-phone-store-night.svg':'#0E1238', 'assets/retail/retail-5-sign-system.svg':'#F3F0E9', 'assets/retail/retail-6-acp-installation.svg':'#CFE0F8', 'assets/retail/retail-7-mall-kiosk.svg':'#EFE9DC', 'assets/retail/retail-8-recce-to-installed.svg':'#CFE0F8', 'assets/retail/retail-9-glazing-vinyl.svg':'#CFE0F8', 'assets/retail/retail-10-rollout-grid.svg':'#F3F0E9' });
+  BG['assets/storyboard/branding-ratio.svg'] = '#F2271A';
   const bgOf = u => BG[u.split('?')[0]] || '#F3F0E9';
   /* scenes with a horizon / floor line: continue it across the side margins so the art blends into the full-width stage */
   const lg = (top, line, floor, at, w) => `linear-gradient(${top} 0 ${at}%, ${line} ${at}% ${at + w}%, ${floor} ${at + w}%)`;
@@ -408,7 +428,8 @@ new IntersectionObserver(([e]) => {
     'assets/retail/retail-6-acp-installation.svg': hz('#CFE0F8', '#C9B28C', '#DCC7A5', 82.2, .9, 16 / 9),
     'assets/retail/retail-7-mall-kiosk.svg': hz('#EFE9DC', '#C9B28C', '#DCC7A5', 76.7, .9, 16 / 9),
     'assets/retail/retail-8-recce-to-installed.svg': hz('#CFE0F8', '#C9B28C', '#DCC7A5', 77.8, .9, 16 / 9),
-    'assets/retail/retail-9-glazing-vinyl.svg': hz('#CFE0F8', '#C9B28C', '#DCC7A5', 86.2, .9, 16 / 9)
+    'assets/retail/retail-9-glazing-vinyl.svg': hz('#CFE0F8', '#C9B28C', '#DCC7A5', 86.2, .9, 16 / 9),
+    'assets/storyboard/branding-ratio.svg': hz('#F2271A', '#F2271A', '#F2271A', 50, .1, 4 / 3),
   };
   const stageStyle = u => { const g = GRAD[u.split('?')[0]]; return g ? `--g:${g[0]};--m:${g[1]};background:var(--g)` : `background:${bgOf(u)}`; };
   const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -453,6 +474,9 @@ new IntersectionObserver(([e]) => {
     BG[u] = w; GRAD[u] = hz(w, fl, fl, 81.1, .1, 16 / 9);
     slides.push({ img:A(u), t:t[0], d:'', tag:t[1] });
   });
+  /* the identity, drawn out on its own: the minimal vector ratio file for the BRANDiNG pillar */
+  slides.push({ img:A('assets/storyboard/branding-ratio.svg'), t:'Identity on the golden ratio',
+    d:'the logo built square by square on the ratio', tag:'BRANDiNG' });
   const N = slides.length;
   track.innerHTML = slides.map((s, i) => `<div class="reel-slide" style="${stageStyle(s.img)}" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${N}" aria-hidden="true"><img ${i < 2 ? 'src="' + s.img + '"' : 'data-src="' + s.img + '"'} alt="${esc(s.t + ' — ' + s.d)}" width="1600" height="900" decoding="async"></div>`).join('');
   thumbs.innerHTML = slides.map((s, i) => `<button type="button" data-i="${i}" aria-label="Show artwork ${i + 1}: ${esc(s.t)}"><img loading="lazy" decoding="async" src="${s.img}" alt="" style="background:${bgOf(s.img)}"></button>`).join('');
@@ -696,7 +720,8 @@ if (fine && !reduce) {
     setOrigin(b, xp, yp); requestAnimationFrame(() => h.classList.add('on')); return true;
   };
   const hide = (b, xp, yp) => { setOrigin(b, xp, yp); if (b._hv) b._hv.classList.remove('on'); };
-  if (FINE) {
+  if (FINE && !reduce) {   /* reduced motion: no animated overlay at all — SVG images can keep
+                              animating in some browsers even when the OS pref is set */
     let cur = null;
     const find = t => { for (const [s, i] of slots) { const b = t.closest && t.closest(s); if (b) { b._hs = i; return b; } } return null; };
     document.addEventListener('pointerover', e => { const b = find(e.target); if (!b || b === cur) return; cur = b; const [x, y] = pct(b, e); show(b, x, y); });

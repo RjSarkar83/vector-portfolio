@@ -1,0 +1,1 @@
+Upload contents to repository root. Retail wall: external brand/category captions removed from all 24 shopfront tiles; all animated glass sweep overlays removed from source SVGs. Original storefront signage, click details and moving rows retained. Wait for Pages deployment, then refresh.
