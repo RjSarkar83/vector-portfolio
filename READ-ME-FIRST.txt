@@ -1,0 +1,11 @@
+ARTWORK-ONLY UPDATE — no index.html, JavaScript or CSS changes needed for existing artwork links.
+
+1. Extract the ZIP. Do not upload the ZIP itself.
+2. In your GitHub repository, open assets/storyboard/. Upload and replace the 5 scene-*.svg files from this ZIP at that exact location. Commit changes.
+3. Open assets/templates/. Upload and replace all 6 designing-*.svg files. Commit changes. These keep all ratio views consistent.
+4. Optional gallery sync: replace designing-templates.html at repository root, if your website uses the template-gallery link. Its previews are embedded, so it needs this separate update.
+5. Wait for GitHub Pages deployment to complete, then hard-refresh (Ctrl+Shift+R).
+
+Do not rename the SVGs or create an extra nested folder. The 5 main scenes retain their existing filenames. scene-4-design.svg also carries the new grayscale Designing artwork for older deployments.
+
+This patch updates artwork only. It does not install ratio-selector controls or recolour panel UI on an older site; use the complete website ZIP for those features.

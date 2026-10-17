@@ -1,0 +1,11 @@
+UPLOAD INSTRUCTIONS - AV MULTICOLOUR UPDATE
+
+Files:
+  github-vector-portfolio-update.zip  site update (includes assets/mockups, patterns/, js, css)
+  AV_Mockups_Full_Pack.zip            174 mockup SVGs + patterns/
+
+Steps:
+1. Unzip github-vector-portfolio-update.zip.
+2. Commit and push to the repo (manual step).
+3. Replace the Full Pack ZIP button target with the Try Now link: https://rjsarkar83.github.io/Brand_Designer/ (manual step).
+4. Hard-refresh the live site. The cache version is v=20261017mockups6.
