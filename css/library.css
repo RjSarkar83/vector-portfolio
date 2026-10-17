@@ -30,7 +30,7 @@
 .mk-card:hover .mk-open,.mk-card:focus-visible .mk-open{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .mk-card .mk-logo{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;background:rgba(23,19,26,.86);
   color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;padding:6px 10px;border-radius:999px;backdrop-filter:blur(6px)}
-.mk-card .mk-logo img{width:14px;height:14px;object-fit:contain;filter:brightness(0) invert(1)}
+.mk-card .mk-logo img{width:18px;height:18px;object-fit:contain}
 .mk-card .mk-body{padding:15px 17px 17px}
 .mk-card .mk-cat{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red-ink,var(--red))}
 .mk-card .mk-name{font-family:var(--serif);font-size:19px;line-height:1.12;letter-spacing:-.015em;margin-top:7px;color:var(--ink)}
@@ -116,9 +116,13 @@
 .mkv-lip kbd{font-family:var(--sans,var(--sans));background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;
   padding:2px 7px;font-size:10px;margin-right:4px}
 body.mkv-lock{overflow:hidden}
+.mkv-stage object#mkvImg{display:block;width:100%;height:min(66vh,760px);border:0;border-radius:10px}
 @media (max-width:940px){
+  .mkv-stage object#mkvImg{height:44vh}
+
   .mkv-in{grid-template-columns:1fr}
   .mkv-stage img{max-height:44vh}
+
   .mkv-specs{grid-template-columns:1fr 1fr}
   .mkv-lip .mkv-keys{display:none}
 }
@@ -170,3 +174,6 @@ body.mkv-lock{overflow:hidden}
 .au-stream span{color:#57544e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .au-note{margin-top:clamp(18px,2.6vw,28px);font-size:12.5px;color:var(--muted);display:flex;gap:10px;align-items:baseline}
 .au-note a{color:var(--red-ink,var(--red));font-weight:700}
+
+.mk-card .mk-ph object.mk-svg{display:block;width:100%;height:100%;border:0;transition:transform .6s var(--ease,ease)}
+.mk-card:hover .mk-ph object.mk-svg{transform:scale(1.045)}

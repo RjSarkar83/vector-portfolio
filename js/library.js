@@ -50,6 +50,32 @@
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -6% 0px' }) : null;
 
+  /* SVG thumbnails are <object>s so their eye script runs; load them as they approach the viewport */
+  var lazySVG = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { var o = e.target; o.setAttribute('data', o.getAttribute('data-src')); lazySVG.unobserve(o); } });
+  }, { rootMargin: '300px 0px' }) : null;
+
+  /* Eyes follow the pointer across the whole page, including over the SVG objects */
+  function eachSVG(fn) {
+    var objs = document.querySelectorAll('object.mk-svg, #mkvImg');
+    for (var i = 0; i < objs.length; i++) {
+      var w = objs[i].contentWindow;
+      if (w && typeof w.avLook === 'function') fn(objs[i], w);
+    }
+  }
+  var lookRaf = 0, lookPt = null;
+  window.avLookAll = function (x, y, fromEl) {
+    if (fromEl) { var fr = fromEl.getBoundingClientRect(); x += fr.left; y += fr.top; }
+    lookPt = [x, y];
+    if (lookRaf) return;
+    lookRaf = requestAnimationFrame(function () {
+      lookRaf = 0;
+      var px = lookPt[0], py = lookPt[1];
+      eachSVG(function (o, w) { var r = o.getBoundingClientRect(); w.avLook(px - r.left, py - r.top); });
+    });
+  };
+  window.addEventListener('pointermove', function (e) { window.avLookAll(e.clientX, e.clientY, null); }, { passive: true });
+
   var grid = document.getElementById('mkGrid');
   var shown = [];
 
@@ -75,9 +101,7 @@
       card.setAttribute('aria-label', m.n + ' — open mockup');
       card.innerHTML =
         '<div class="mk-ph">' +
-          '<img loading="lazy" decoding="async" src="' + ASSET + m.f + '" alt="' + m.n.replace(/"/g, '&quot;') + ' — AV red minimal mockup">' +
-          '<span class="mk-logo"><img src="assets/logo.svg" alt="">AV LOGO 0' + m.logo + '</span>' +
-          '<span class="mk-open">OPEN</span>' +
+          '<object class="mk-svg" type="image/svg+xml" data-src="' + ASSET + m.f + '" aria-label="' + m.n.replace(/"/g, '&quot;') + ' — AV multicolour mockup"></object>' +
         '</div>' +
         '<div class="mk-body">' +
           '<div class="mk-cat">' + m.cat + '</div>' +
@@ -93,6 +117,8 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(idx, card); }
       });
       if (io) io.observe(card); else card.classList.add('in');
+      var so = card.querySelector('object.mk-svg');
+      if (so) { if (lazySVG) lazySVG.observe(so); else so.setAttribute('data', so.getAttribute('data-src')); }
       frag.appendChild(card);
     });
     grid.appendChild(frag);
@@ -110,21 +136,21 @@
     var m = shown[i];
     if (!m) return;
     cur = i;
-    popImg.src = ASSET + m.f;
-    popImg.alt = m.n + ' — AV mockup preview';
+    popImg.setAttribute('data', ASSET + m.f);
+    popImg.setAttribute('aria-label', m.n + ' — AV mockup preview');
     popCat.textContent = m.cat;
     popTitle.textContent = m.n;
-    popBadge.textContent = 'AV LOGO 0' + m.logo + ' · ' + m.fam.toUpperCase() + (m.v ? ' / ' + m.v : '');
+    popBadge.textContent = m.fam.toUpperCase() + (m.v ? ' / ' + m.v : '');
     popSpecs.innerHTML =
       '<div><dt>Size</dt><dd>' + (m.spec[0] || '—') + '</dd></div>' +
       '<div><dt>Material</dt><dd>' + (m.spec[1] || '—') + '</dd></div>' +
       '<div><dt>Lighting</dt><dd>' + (m.spec[2] || '—') + '</dd></div>' +
       '<div><dt>Camera view</dt><dd>' + (m.spec[3] || '—') + '</dd></div>' +
       '<div style="grid-column:1/-1"><dt>Key elements</dt><dd>' + (m.spec[4] || '—') + '</dd></div>';
-    popPrompt.innerHTML = '<b>AI PROMPT</b>Photorealistic ' + m.cat + ' branding mockup of ' + m.n +
+    popPrompt.innerHTML = '<b>AI PROMPT</b>Minimal flat vector ' + m.cat + ' mockup: ' + m.n +
       '. Size ' + m.spec[0] + '. Material: ' + m.spec[1] + '. Lighting: ' + m.spec[2] +
       '. Camera: ' + m.spec[3] + '. Key elements: ' + m.spec[4] +
-      '. Brand AV, colours #E5322D / #1A1518. Commercial architectural photography, sharp, 4K.';
+      '. Multicolour palette: coral, teal, mustard, navy, soft grey. Plain white background, no gradients, no text in artwork, blank panel for logo placement.';
     popDl.href = ASSET + m.f;
     popDl.setAttribute('download', m.f);
     popPos.textContent = (i + 1) + ' / ' + shown.length;
@@ -170,7 +196,7 @@
     isOpen = false;
     document.body.classList.remove('mkv-lock');
     setTimeout(function () {
-      if (!isOpen) { pop.classList.remove('on'); popImg.src = ''; }
+      if (!isOpen) { pop.classList.remove('on'); popImg.removeAttribute('data'); }
     }, 420);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }

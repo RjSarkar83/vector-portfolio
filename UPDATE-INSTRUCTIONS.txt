@@ -1,8 +1,12 @@
-LAST UPDATE ONLY — original logos + light logo backgrounds
+AV MULTICOLOUR BRAND UPDATE - INSTRUCTIONS
 
-14 updated website files, not a complete website.
-Extract and upload these files to the SAME paths in your existing GitHub repository, replacing matching files. Keep all other existing files; do not delete the repository.
+Replaces the old red / black / white system. Current palette: coral, teal, mustard, navy, soft grey, white.
 
-Includes five scene SVGs, six Designing ratio SVGs, the template presentation page, index.html and js/app.js. The HTML/JS changes refresh cached artwork references.
+1. Unzip github-vector-portfolio-update.zip.
+2. Copy the contents over the repo (keep the folder structure: assets/mockups, js, css, patterns).
+3. Check that index.html shows "174 mockups, one brand system."
+4. Commit: "Multicolour brand update: 174 mockups, eye blink + mouse follow, patterns"
+5. Push (manual step).
+6. On GitHub Pages, the Full Pack button is now "Try Now" and links to https://rjsarkar83.github.io/Brand_Designer/. The Full Pack ZIP itself is provided separately as AV_Mockups_Full_Pack.zip.
 
-Wait for GitHub Pages deployment, then hard refresh.
+Do not rerun any old brand scripts (brand_gold.py, brand_svgs.py). They produce the superseded red system.
