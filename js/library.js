@@ -7,7 +7,7 @@
   if (!DATA.length) return;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var ASSET = 'assets/mockups/';
-  var ASSET_V = '?v=20261017mockups7';
+  var ASSET_V = '?v=20261017mockups10';
 
   /* ---- gooey filter (liquid blobs) ---- */
   var svgNS = 'http://www.w3.org/2000/svg';

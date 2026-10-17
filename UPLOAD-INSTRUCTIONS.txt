@@ -1,11 +1,18 @@
-UPLOAD INSTRUCTIONS - AV MULTICOLOUR UPDATE
+UPLOAD INSTRUCTIONS - AV MULTICOLOUR UPDATE (mockups9)
 
 Files:
-  github-vector-portfolio-update.zip  site update (includes assets/mockups, patterns/, js, css)
-  AV_Mockups_Full_Pack.zip            174 mockup SVGs + patterns/
+  github-vector-portfolio-update.zip  full site update. Its top folder is vector-portfolio/
+                                      (the CONTENTS of that folder go to the repo root).
+  AV_Mockups_Full_Pack.zip            174 mockup SVGs + patterns/ (also nested in assets/mockups/)
 
 Steps:
 1. Unzip github-vector-portfolio-update.zip.
-2. Commit and push to the repo (manual step).
-3. Replace the Full Pack ZIP button target with the Try Now link: https://rjsarkar83.github.io/Brand_Designer/ (manual step).
-4. Hard-refresh the live site. The cache version is v=20261017mockups6.
+2. Open the vector-portfolio/ folder. Upload/replace ALL of its contents in the
+   GitHub repo "vector-portfolio" (index.html, js/, css/, assets/, patterns/, etc.).
+   Make sure assets/mockups/ is replaced too (174 SVGs + nested Full Pack zip).
+3. Commit and push (manual step).
+4. Hard-refresh the live site: https://rjsarkar83.github.io/vector-portfolio/
+   The cache version is v=20261017mockups9. If the old version still shows,
+   wait 1-2 minutes for GitHub Pages to deploy, then hard-refresh (Ctrl+Shift+R).
+5. The Full Pack ZIP button is now "Try Now" and links to
+   https://rjsarkar83.github.io/Brand_Designer/ (opens in a new tab).
